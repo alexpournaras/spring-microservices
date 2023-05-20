@@ -5,17 +5,14 @@
 <head th:replace="header :: copy"></head>
 
 <body>
-
-	<h1>Spring Boot Microservices</h1>
-	<h3>Redaction Service</h3>
-	<form action="/redact">
-	  	Text to redact:<br>
-	  	<input type="text" name="input" value="">
-	  	<br>
-	  	<br>
-	  	<input type="submit" value="Submit">
-	</form>	
-	<hr>
+	<div>
+        <h1 class="title">Text Redaction</h1>
+        <p class="description">Preserve your privacy by redacting all names, emails, and street addresses from your text. Enter your text below, and receive a redacted version in PDF format.</p>
+        <form action="/redact">
+            <textarea class="textarea" placeholder="Write or paste your text here..." name="input"></textarea>
+            <input class="submit-button" type="submit" value="Redact">
+        </form>
+    </div>
 
 	<div th:replace="footer :: copy"></div>
 

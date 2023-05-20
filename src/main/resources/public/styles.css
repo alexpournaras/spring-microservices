@@ -1,7 +1,6 @@
 /* - - - - - - - - - - - *
        Local Styles
  * - - - - - - - - - - - */
- 
 body {
 	font-family: helvetica;
 	font-size: 13pt;
@@ -36,4 +35,70 @@ footer {
 	text-align: center;
 	color:#6DB33F;   /* Spring Green */
 	font-style: italic;
+}
+
+/* - - - - - - - - - - - *
+       Custom Styles
+ * - - - - - - - - - - - */
+body {
+    background-color: #2f3640;
+    color: #f5f6fa;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    text-align: center;
+    width: 50%;
+    margin: auto;
+}
+
+.title {
+    margin-top: 50px;
+}
+
+.description {
+    margin: 20px 0;
+}
+
+.textarea {
+    width: 100%;
+    height: 200px;
+    margin-bottom: 20px;
+    padding: 10px;
+    font-size: 16px;
+    color: #2f3640;
+    background-color: #f5f6fa;
+	border-radius: 10px;
+}
+
+.submit-button, .back-button {
+	background: linear-gradient(89deg, #ff4162 0%, #ffa748 100%);
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    padding: 8px;
+    border-radius: 5px;
+    font-weight: 600;
+    min-width: 200px;
+    margin: 6px;
+}
+
+.submit-button:hover, .back-button:hover {
+    color: white;
+    text-decoration: none;
+}
+
+.pdf-container {
+    width: 100%;
+    height: 500px;
+    margin: 20px 0;
+}
+
+.pdf {
+    width: 100%;
+    height: 100%;
 }

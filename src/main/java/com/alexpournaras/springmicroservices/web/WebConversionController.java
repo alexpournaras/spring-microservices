@@ -26,7 +26,7 @@ public class WebConversionController {
 		logger.info("Res: " + res);
 		model.addAttribute("json", res);
 
-		return "res";
+		return "redacted";
 	}
 
 
