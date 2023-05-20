@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -18,17 +19,14 @@ public class WebConversionController {
 		this.redactionService = redactionService;
 	}
 
-	@RequestMapping("/redact")
-	public String doRedaction(@RequestParam(defaultValue="0") String input, Model model) {
+	@RequestMapping(value = "/redact", method = RequestMethod.POST)
+	public String doRedaction(@RequestParam("text") String text, Model model) {
+		String response = redactionService.redact(text);
 
-		String res = redactionService.redact(input);
-
-		logger.info("Res: " + res);
-		model.addAttribute("json", res);
+		logger.info("Res: " + response);
+		model.addAttribute("response", response);
 
 		return "redacted";
 	}
-
-
 
 }

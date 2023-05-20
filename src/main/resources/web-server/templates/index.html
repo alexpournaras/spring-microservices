@@ -8,8 +8,8 @@
 	<div>
         <h1 class="title">Text Redaction</h1>
         <p class="description">Preserve your privacy by redacting all names, emails, and street addresses from your text. Enter your text below, and receive a redacted version in PDF format.</p>
-        <form action="/redact">
-            <textarea class="textarea" placeholder="Write or paste your text here..." name="input"></textarea>
+        <form action="/redact" method="POST">
+            <textarea class="textarea" placeholder="Write or paste your text here..." name="text"></textarea>
             <input class="submit-button" type="submit" value="Redact">
         </form>
     </div>
