@@ -1,9 +1,9 @@
 package com.alexpournaras.springmicroservices.web;
 
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,21 +34,23 @@ public class WebConversionController {
 	public String doRedaction(@RequestParam("text") String text, Model model, HttpServletResponse response) {
 
 		// Send text to redaction service
-		String redactedJson = redactionService.redact(text);
-		JSONObject jsonObject = new JSONObject(redactedJson);
-		String redacted = jsonObject.getString("response");
+		Map<String, String> redactedResponse = redactionService.redact(text);
+		String redactedText = redactedResponse.get("response");
 
-		// Send the redacted text to pdf service and get its saved path
-		String path = pdfService.pdf(redacted);
+		// Send the redacted text to the pdf service and get its filename
+		Map<String, String> pdfResponse = pdfService.pdf(redactedText);
+		String filename = pdfResponse.get("filename");
+
+		// Get url of pdf service
 		String serviceUrl = getServiceUrl("pdf-service");
 
 		// Create the response model
 		model.addAttribute("original", text);
-		model.addAttribute("path", serviceUrl + "/pdf/" + path);
+		model.addAttribute("path", serviceUrl + "/pdf/" + filename);
 
 		return "redacted";
 	}
-	
+
 	private String getServiceUrl(String serviceName) {
 		List<ServiceInstance> instances = discoveryClient.getInstances(serviceName);
 

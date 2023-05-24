@@ -26,15 +26,16 @@ public class WebRedactionService {
 		this.serviceUrl = serviceUrl.startsWith("http") ? serviceUrl : "http://" + serviceUrl;
 	}
 
-	public String redact(String text) {
+	public Map<String, String> redact(String text) {
 		Map<String, String> map = new HashMap<>();
 		map.put("text", text);
 
+		// Create json with the text
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		HttpEntity<Map<String, String>> textToRedact = new HttpEntity<>(map, headers);
 
-		return restTemplate.postForObject(serviceUrl + "/redact", textToRedact, String.class);
+		return restTemplate.postForObject(serviceUrl + "/redact", textToRedact, Map.class);
 	}
 
 }

@@ -1,5 +1,7 @@
 package com.alexpournaras.springmicroservices.pdf;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.io.File;
 import java.io.FileInputStream;
 import java.nio.file.Files;
@@ -29,8 +31,8 @@ public class pdfController {
     private String pdfDirectory;
 
 	@PostMapping("/pdf")
-    public String doPdf(@RequestBody TextInput inputText) {
-        String text = inputText.getText();
+    public ResponseEntity<Map<String, String>> doPdf(@RequestBody Map<String, String> payload) {
+        String text = payload.get("text");
 
         try {
             PDDocument document = new PDDocument();
@@ -59,7 +61,11 @@ public class pdfController {
             document.save(path);
             document.close();
 
-            return pdfFileName;
+            // Create response Map object
+            Map<String, String> response = new HashMap<>();
+            response.put("filename", pdfFileName);
+
+            return ResponseEntity.ok(response);
 
         } catch (IOException error) {
             throw new RuntimeException("Could not generate PDF", error);

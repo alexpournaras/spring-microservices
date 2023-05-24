@@ -1,9 +1,12 @@
 package com.alexpournaras.springmicroservices.redaction;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,8 +19,8 @@ public class redactionController {
     private static final String STREET_ADDRESS_PATTERN = "\\b\\d+\\s+([a-zA-Z]+|[a-zA-Z]+\\s[a-zA-Z]+)\\s+([a-zA-Z]+\\s+)?[A-Za-z]{2,}\\s+\\d{5}(?:[-\\s]\\d{4})?\\b";
 
 	@PostMapping("/redact")
-    public String doRedaction(@RequestBody TextInput inputText) {
-		String text = inputText.getText();
+    public ResponseEntity<Map<String, String>> doRedaction(@RequestBody Map<String, String> payload) {
+        String text = payload.get("text");
 
 		// Redact names
         Pattern namePattern = Pattern.compile(NAME_PATTERN);
@@ -34,7 +37,11 @@ public class redactionController {
         Matcher streetAddressMatcher = streetAddressPattern.matcher(text);
         text = streetAddressMatcher.replaceAll("[REDACTED STREET ADDRESS]");
 
-		return "{\"response\":\"" + text + "\"}";
+        // Create response map object
+        Map<String, String> response = new HashMap<>();
+        response.put("response", text);
+
+        return ResponseEntity.ok(response);
     }
 
 }
