@@ -1,7 +1,5 @@
 package com.alexpournaras.springmicroservices.web;
 
-import java.util.Map;
-import java.util.HashMap;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,28 +11,29 @@ import org.springframework.http.MediaType;
 import org.springframework.http.HttpEntity;
 
 @Service
-public class WebRedactionService {
+public class WebPdfService {
 	
 	@Autowired
 	@LoadBalanced
 	protected RestTemplate restTemplate;
 	
 	protected String serviceUrl;
-	protected Logger logger = Logger.getLogger(WebRedactionService.class.getName());
+	protected Logger logger = Logger.getLogger(WebPdfService.class.getName());
 
-	public WebRedactionService(String serviceUrl) {
+	public WebPdfService(String serviceUrl) {
 		this.serviceUrl = serviceUrl.startsWith("http") ? serviceUrl : "http://" + serviceUrl;
 	}
 
-	public String redact(String text) {
-		Map<String, String> map = new HashMap<>();
-		map.put("text", text);
+	public String pdf(String text) {
+		TextInput input = new TextInput();
+		input.setText(text);
 
+		// Create json with the input text
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
-		HttpEntity<Map<String, String>> textToRedact = new HttpEntity<>(map, headers);
+		HttpEntity<TextInput> entity = new HttpEntity<>(input, headers);
 
-		return restTemplate.postForObject(serviceUrl + "/redact", textToRedact, String.class);
+		return restTemplate.postForObject(serviceUrl + "/pdf", entity, String.class);
 	}
 
 }

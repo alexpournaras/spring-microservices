@@ -15,6 +15,7 @@ import org.springframework.web.client.RestTemplate;
 @EnableDiscoveryClient
 public class WebServer {
 
+	public static final String PDF_SERVICE_URL = "http://pdf-service";
 	public static final String REDACTION_SERVICE_URL = "http://redaction-service";
 
 	@Autowired
@@ -37,8 +38,13 @@ public class WebServer {
 	}
 
 	@Bean
-	public WebConversionController redactionController() {
-		return new WebConversionController(redactionService());
+	public WebPdfService pdfService() {
+		return new WebPdfService(PDF_SERVICE_URL);
+	}
+
+	@Bean
+	public WebConversionController webController() {
+		return new WebConversionController(redactionService(), pdfService());
 	}
 
 	@Bean

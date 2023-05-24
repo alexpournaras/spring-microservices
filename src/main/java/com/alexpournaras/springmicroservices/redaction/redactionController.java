@@ -22,17 +22,17 @@ public class redactionController {
 		// Redact names
         Pattern namePattern = Pattern.compile(NAME_PATTERN);
         Matcher nameMatcher = namePattern.matcher(text);
-        text = nameMatcher.replaceAll("[REDACTED]");
+        text = nameMatcher.replaceAll("[REDACTED NAME]");
 
         // Redact email addresses
         Pattern emailPattern = Pattern.compile(EMAIL_PATTERN);
         Matcher emailMatcher = emailPattern.matcher(text);
-        text = emailMatcher.replaceAll("[REDACTED]");
+        text = emailMatcher.replaceAll("[REDACTED EMAIL]");
 
         // Redact street addresses
         Pattern streetAddressPattern = Pattern.compile(STREET_ADDRESS_PATTERN);
         Matcher streetAddressMatcher = streetAddressPattern.matcher(text);
-        text = streetAddressMatcher.replaceAll("[REDACTED]");
+        text = streetAddressMatcher.replaceAll("[REDACTED STREET ADDRESS]");
 
 		return "{\"response\":\"" + text + "\"}";
     }
