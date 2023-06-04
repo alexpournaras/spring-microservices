@@ -8,6 +8,8 @@ WORKDIR /pdf
 
 RUN mvn clean install
 
+RUN mv target/*.jar pdf.jar
+
 EXPOSE 3333
 
-CMD ["java", "-jar", "target/pdf-service-v1.0.0.jar"]
+CMD ["/usr/bin/java", "-jar", "pdf.jar", "--server.port=3333", "pdf"]

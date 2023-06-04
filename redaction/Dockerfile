@@ -8,6 +8,8 @@ WORKDIR /redaction
 
 RUN mvn clean install
 
+RUN mv target/*.jar redaction.jar
+
 EXPOSE 2222
 
-CMD ["java", "-jar", "target/redaction-service-v1.0.0.jar"]
+CMD ["/usr/bin/java", "-jar", "redaction.jar", "--server.port=2222", "redaction"]

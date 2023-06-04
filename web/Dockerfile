@@ -8,6 +8,8 @@ WORKDIR /web
 
 RUN mvn clean install
 
+RUN mv target/*.jar web.jar
+
 EXPOSE 4444
 
-CMD ["java", "-jar", "target/web-service-v1.0.0.jar"]
+CMD ["/usr/bin/java", "-jar", "web.jar", "--server.port=4444", "web"]

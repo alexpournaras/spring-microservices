@@ -8,6 +8,8 @@ WORKDIR /eureka
 
 RUN mvn clean install
 
+RUN mv target/*.jar eureka.jar
+
 EXPOSE 8761
 
-CMD ["java", "-jar", "target/eureka-service-v1.0.0.jar"]
+CMD ["/usr/bin/java", "-jar", "eureka.jar", "--server.port=8761", "eureka"]

@@ -1,0 +1,45 @@
+version: "3.9"
+
+services:
+  eureka:
+    image: apournaras/eureka
+    environment:
+    - eureka.client.serviceUrl.defaultZone=http://eureka:8761/eureka/
+    - eureka.instance.preferIPAddress=true
+    ports:
+    - "8761:8761"
+  web:
+    image: apournaras/web
+    environment:
+    - eureka.client.serviceUrl.defaultZone=http://eureka:8761/eureka/
+    - eureka.instance.preferIPAddress=true
+    ports:
+    - "4444:4444"
+    links:
+    - eureka
+    depends_on:
+    - eureka
+    - redaction
+    - pdf
+  redaction:
+    image: apournaras/redaction
+    environment:
+    - eureka.client.serviceUrl.defaultZone=http://eureka:8761/eureka/
+    - eureka.instance.preferIPAddress=true
+    ports:
+    - "2222:2222"
+    links:
+    - eureka
+    depends_on:
+    - eureka
+  pdf:
+    image: apournaras/pdf
+    environment:
+    - eureka.client.serviceUrl.defaultZone=http://eureka:8761/eureka/
+    - eureka.instance.preferIPAddress=true
+    ports:
+    - "3333:3333"
+    links:
+    - eureka
+    depends_on:
+    - eureka
