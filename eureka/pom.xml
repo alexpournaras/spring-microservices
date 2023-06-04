@@ -9,10 +9,10 @@
 		<relativePath/>
 	</parent>
 	<groupId>com.alexpournaras</groupId>
-	<artifactId>spring-microservices</artifactId>
-	<version>v0.0.1</version>
-	<name>spring-microservices</name>
-	<description>Demo project for Spring Boot</description>
+	<artifactId>eureka-service</artifactId>
+	<version>v1.0.0</version>
+	<name>eureka-service</name>
+	<description>Eureka Service</description>
 	
 	<properties>
 		<java.version>1.8</java.version>
