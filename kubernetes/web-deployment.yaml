@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: web
+  name: web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: web
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        io.kompose.network/spring-microservices-default: "true"
+        io.kompose.service: web
+    spec:
+      containers:
+        - env:
+            - name: eureka.client.serviceUrl.defaultZone
+              value: http://eureka:8761/eureka/
+            - name: eureka.instance.preferIPAddress
+              value: "true"
+          image: apournaras/web
+          name: web
+          ports:
+            - containerPort: 4444
+          resources: {}
+      restartPolicy: Always
+status: {}
