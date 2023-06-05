@@ -14,9 +14,9 @@ public class redactionController {
 	protected Logger logger = Logger.getLogger(redactionController.class.getName());
 
 	// Regular expressions for name, email, and street address patterns
-    private static final String NAME_PATTERN = "\\b([A-Z][a-z]+(?: [A-Z][a-z]+)*)\\b";
+    private static final String NAME_PATTERN = "\\b([A-Z][a-z]*\\s[A-Z][a-z]*)\\b";
     private static final String EMAIL_PATTERN = "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}\\b";
-    private static final String STREET_ADDRESS_PATTERN = "\\b\\d+\\s+([a-zA-Z]+|[a-zA-Z]+\\s[a-zA-Z]+)\\s+([a-zA-Z]+\\s+)?[A-Za-z]{2,}\\s+\\d{5}(?:[-\\s]\\d{4})?\\b";
+    private static final String ADDRESS_PATTERN = "\\b([A-Za-z]+\\s\\d+)\\b";
 
 	@PostMapping("/redact")
     public ResponseEntity<Map<String, String>> doRedaction(@RequestBody Map<String, String> payload) {
@@ -33,9 +33,9 @@ public class redactionController {
         text = emailMatcher.replaceAll("[REDACTED EMAIL]");
 
         // Redact street addresses
-        Pattern streetAddressPattern = Pattern.compile(STREET_ADDRESS_PATTERN);
+        Pattern streetAddressPattern = Pattern.compile(ADDRESS_PATTERN);
         Matcher streetAddressMatcher = streetAddressPattern.matcher(text);
-        text = streetAddressMatcher.replaceAll("[REDACTED STREET ADDRESS]");
+        text = streetAddressMatcher.replaceAll("[REDACTED ADDRESS]");
 
         // Create response map object
         Map<String, String> response = new HashMap<>();

@@ -6,11 +6,9 @@ import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.HttpEntity;
 
 @Service
 public class WebPdfService {
@@ -26,7 +24,7 @@ public class WebPdfService {
 		this.serviceUrl = serviceUrl.startsWith("http") ? serviceUrl : "http://" + serviceUrl;
 	}
 
-	public Map<String, String> pdf(String text) {
+	public ResponseEntity<byte[]> pdf(String text) {
 		Map<String, String> map = new HashMap<>();
 		map.put("text", text);
 
@@ -35,7 +33,7 @@ public class WebPdfService {
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		HttpEntity<Map<String, String>> textToPdf = new HttpEntity<>(map, headers);
 
-		return restTemplate.postForObject(serviceUrl + "/pdf", textToPdf, Map.class);
+		return restTemplate.exchange(serviceUrl + "/pdf", HttpMethod.POST, textToPdf, byte[].class);
 	}
 
 }

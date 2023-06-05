@@ -1,15 +1,19 @@
 package com.alexpournaras.springmicroservices.web;
 
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 
 import javax.servlet.http.HttpServletResponse;
@@ -31,36 +35,23 @@ public class WebConversionController {
 	}
 
 	@PostMapping(value = "/redact")
-	public String doRedaction(@RequestParam("text") String text, Model model, HttpServletResponse response) {
+	public ResponseEntity<byte[]> doRedaction(@RequestParam("text") String text, Model model, HttpServletResponse response) {
 
 		// Send text to redaction service
 		Map<String, String> redactedResponse = redactionService.redact(text);
 		String redactedText = redactedResponse.get("response");
 
-		// Send the redacted text to the pdf service and get its filename
-		Map<String, String> pdfResponse = pdfService.pdf(redactedText);
-		String filename = pdfResponse.get("filename");
+		// Send the redacted text to the pdf service and get the pdf as byte array
+		ResponseEntity<byte[]> pdfResponse = pdfService.pdf(redactedText);
 
-		// Get url of pdf service
-		String serviceUrl = getServiceUrl("pdf-service");
+		String timeStamp = new SimpleDateFormat("yyyyMMdd").format(new Date());
+		String pdfFileName = timeStamp + "_redacted.pdf";
 
-		// Create the response model
-		model.addAttribute("original", text);
-		model.addAttribute("path", serviceUrl + "/pdf/" + filename);
+		HttpHeaders headers = new HttpHeaders();
+		headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + pdfFileName);
+		headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_PDF_VALUE);
 
-		return "redacted";
+		return new ResponseEntity<>(pdfResponse.getBody(), headers, HttpStatus.OK);
 	}
-
-	private String getServiceUrl(String serviceName) {
-		List<ServiceInstance> instances = discoveryClient.getInstances(serviceName);
-
-		// Return the url for the first found service instance
-		if (instances != null && !instances.isEmpty()) {
-			return instances.get(0).getUri().toString();
-		}
-	
-		throw new RuntimeException("Could not find service: " + serviceName);
-	}
-
 
 }
