@@ -23,6 +23,7 @@ spec:
             - name: eureka.instance.preferIPAddress
               value: "true"
           image: apournaras/web
+          imagePullPolicy: Always
           name: web
           ports:
             - containerPort: 4444

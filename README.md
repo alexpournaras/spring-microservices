@@ -16,6 +16,17 @@ This practical coursework is about containerizing and deploying a microservices-
 5. The microservice implements HATEOAS: any request to the redaction functionality, should return a response including the link to the hashing functionality.
 6. Containerize the new version and use a rolling update to replace the old version with the new one.
 
+## Google Cloud
+```
+Demo zone:
+europe-west1-b
+
+gcloud auth configure-docker
+gcloud config set project PROJECT_ID
+gcloud config set compute/zone compute-zone
+gcloud container clusters create cluster-name
+```
+
 ## Docker Hub Image Registry
 ```
 cd pdf
@@ -51,12 +62,6 @@ type: LoadBalancer
 
 cd kubernetes
 kubectl apply -f .
-```
-
-## Google Cloud
-```
-gcloud auth configure-docker
-gcloud config set project PROJECT_ID
-gcloud config set compute/zone compute-zone
-gcloud container clusters create cluster-name
+kubectl rollout status deployment/redaction
+kubectl rollout restart deployment/redaction
 ```

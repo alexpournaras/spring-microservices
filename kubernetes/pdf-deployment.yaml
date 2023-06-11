@@ -23,6 +23,7 @@ spec:
             - name: eureka.instance.preferIPAddress
               value: "true"
           image: apournaras/pdf
+          imagePullPolicy: Always
           name: pdf
           ports:
             - containerPort: 3333

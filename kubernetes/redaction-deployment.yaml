@@ -27,6 +27,7 @@ spec:
             - name: eureka.instance.preferIPAddress
               value: "true"
           image: apournaras/redaction
+          imagePullPolicy: Always
           name: redaction
           ports:
             - containerPort: 2222
