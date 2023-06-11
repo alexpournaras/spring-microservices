@@ -12,8 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-public class pdfController {
-	protected Logger logger = Logger.getLogger(pdfController.class.getName());
+public class PdfController {
+	protected Logger logger = Logger.getLogger(PdfController.class.getName());
 
     @PostMapping("/pdf")
     public ResponseEntity<byte[]> doPdf(@RequestBody Map<String, String> payload) {

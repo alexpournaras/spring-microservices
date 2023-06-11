@@ -40,6 +40,10 @@ public class WebConversionController {
 		// Send text to redaction service
 		Map<String, String> redactedResponse = redactionService.redact(text);
 		String redactedText = redactedResponse.get("response");
+		
+		// Hashing URL
+		String hashingUrl = redactedResponse.get("hashing_url");
+		System.out.println("Hashing URL: " + hashingUrl);
 
 		// Send the redacted text to the pdf service and get the pdf as byte array
 		ResponseEntity<byte[]> pdfResponse = pdfService.pdf(redactedText);

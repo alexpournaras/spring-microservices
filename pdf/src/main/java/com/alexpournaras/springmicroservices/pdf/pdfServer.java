@@ -6,9 +6,9 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @EnableDiscoveryClient
 @SpringBootApplication
-public class pdfServer {
+public class PdfServer {
 	public static void main(String[] args) {
 		System.setProperty("spring.config.name", "pdf-server");
-		SpringApplication.run(pdfServer.class, args);
+		SpringApplication.run(PdfServer.class, args);
 	}
 }
